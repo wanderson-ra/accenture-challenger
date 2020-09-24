@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.junit.Before;
@@ -104,15 +105,76 @@ public class TaskMysqlDatabaseGatewayUniTest {
 		doThrow(new RuntimeException()).when(this.taskRepository).save(taskCreate);
 
 		try {
-			
+
 			this.taskMysqlDatabaseGateway.create(taskCreate);
-			
+
 		} catch (ErrorToAccessDatabaseGatewayException e) {
 			assertEquals("challenger.error.database.access", e.code);
 			assertEquals("Error to access database.", e.message);
 			throw e;
 		}
 
+	}
+
+	@Test
+	public void deleteWithSucess() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.GET_TASK);
+
+		this.taskMysqlDatabaseGateway.delete(task);
+
+		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+		verify(this.taskRepository, VerificationModeFactory.times(1)).delete(taskCaptor.capture());
+
+		final Task taskCaptured = taskCaptor.getValue();
+		assertEquals(task.getDate(), taskCaptured.getDate());
+		assertEquals(task.getDescription(), taskCaptured.getDescription());
+		assertEquals(task.getId(), taskCaptured.getId());
+		assertEquals(task.getIsDone(), taskCaptured.getIsDone());
+	}
+
+	@Test(expected = ErrorToAccessDatabaseGatewayException.class)
+	public void deleteWithErrorToAccessDatabase() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.GET_TASK);
+		doThrow(new RuntimeException()).when(this.taskRepository).delete(task);
+
+		try {
+
+			this.taskMysqlDatabaseGateway.delete(task);
+
+		} catch (ErrorToAccessDatabaseGatewayException e) {
+			assertEquals("challenger.error.database.access", e.code);
+			assertEquals("Error to access database.", e.message);
+			throw e;
+		}
+
+	}
+
+	@Test
+	public void getByIdWithSuccess() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.GET_TASK);
+		final Long taskId = 400L;
+
+		when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+
+		final Optional<Task> optionalTask = this.taskMysqlDatabaseGateway.getById(taskId);
+		assertEquals(task.getDate(), optionalTask.get().getDate());
+		assertEquals(task.getDescription(), optionalTask.get().getDescription());
+		assertEquals(task.getId(), optionalTask.get().getId());
+		assertEquals(task.getIsDone(), optionalTask.get().getIsDone());
+	}
+
+	@Test(expected = ErrorToAccessDatabaseGatewayException.class)
+	public void getByIdWithErrorToAccessDatabase() {
+		final Long taskId = 400L;
+		doThrow(new RuntimeException()).when(this.taskRepository).findById(taskId);
+
+		try {
+			this.taskMysqlDatabaseGateway.getById(taskId);
+		} catch (ErrorToAccessDatabaseGatewayException e) {
+			assertEquals("challenger.error.database.access", e.code);
+			assertEquals("Error to access database.", e.message);
+			throw e;
+		}
 	}
 
 }

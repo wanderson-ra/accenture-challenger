@@ -54,22 +54,33 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 		}
 	}
 
-	
 	public void delete(final Task task) {
 		try {
 			log.trace("taskId: {}", task);
-			
+
 			this.taskRepository.delete(task);
-			
-		} catch (Exception e) {
-			// TODO: handle exception
+
+		} catch (Exception error) {
+			log.error("Error, {}", error);
+			throw new ErrorToAccessDatabaseGatewayException();
 		}
-		
+
 	}
 
-	@Override
 	public Optional<Task> getById(Long taskId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		try {
+			log.trace("taskId: {}", taskId);
+
+			final Optional<Task> optionalTask = this.taskRepository.findById(taskId);
+
+			log.trace("task: {}", optionalTask.get());
+
+			return optionalTask;
+		} catch (Exception error) {
+			log.error("Error, {}", error);
+			throw new ErrorToAccessDatabaseGatewayException();
+		}
+
 	}
 }
