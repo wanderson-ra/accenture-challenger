@@ -9,10 +9,12 @@ import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Entity
 public class Task {
@@ -20,11 +22,15 @@ public class Task {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Column(nullable = false)
 	private String description;
+	
+	@Column(nullable = false)
 	private LocalDate date;
 	
-	@Column(columnDefinition = "boolean default false")
-	private Boolean isDone;
+	@Column(name = "is_done", columnDefinition = "boolean default true", nullable = false)
+	private Boolean isDone = false;
 
 	public Task(final String description, final LocalDate date) {
 		this.description = description;

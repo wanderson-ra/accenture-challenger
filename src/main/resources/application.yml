@@ -4,14 +4,21 @@ spring:
       
    datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/task
+    url: jdbc:mysql://localhost:3306/challenger?zeroDateTimeBehavior=convertToNull&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
     
    jpa: 
-    hibernate.ddl-auto: update
-    generate-ddl: true
-    show-sql: true
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        locationId:
+          new_generator_mappings: false
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        jdbc:
+          time_zone: UTC
 
 baseurl:
       v1: /task/v1
