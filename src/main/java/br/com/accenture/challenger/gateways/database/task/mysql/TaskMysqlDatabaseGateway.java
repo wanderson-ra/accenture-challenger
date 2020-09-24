@@ -83,4 +83,9 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 		}
 
 	}
+	
+	public void markIsDone(final Task task) {
+		// TODO Auto-generated method stub
+		
+	}
 }

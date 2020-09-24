@@ -11,4 +11,5 @@ public interface TaskDatabaseGateway {
 	Long create(final Task task);
 	void delete(final Task task);
 	Optional<Task> getById(final Long taskId);
+	void markIsDone(final Task task);
 }
