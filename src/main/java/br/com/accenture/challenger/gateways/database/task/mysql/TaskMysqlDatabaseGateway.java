@@ -34,5 +34,4 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 			throw new ErrorToAccessDatabaseGatewayException();
 		}	
 	}
-
 }
