@@ -2,6 +2,7 @@ package br.com.accenture.challenger.usecases;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -9,9 +10,11 @@ import org.apache.commons.lang3.ClassUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
 
 import br.com.accenture.challenger.databuilders.domains.DomainsTemplateLoader;
 import br.com.accenture.challenger.databuilders.domains.TaskTemplate;
@@ -26,6 +29,9 @@ public class TaskServiceUniTest {
 	
 	@Mock
 	private GetAllTasksUseCase getAllTasksUseCase;
+	
+	@Mock
+	private CreateTaskUseCase createTaskUseCase;
 	
 	@Before
 	public void initMocks() {
@@ -53,6 +59,27 @@ public class TaskServiceUniTest {
 		assertEquals(tasks.get(1).getDescription(), tasksResponse.get(1).getDescription());
 		assertEquals(tasks.get(1).getId(), tasksResponse.get(1).getId());
 		assertEquals(tasks.get(1).getIsDone(), tasksResponse.get(1).getIsDone());	
+	}
+	
+	@Test
+	public void createWithSuccess() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
+		final Long taskId = 200L;
+		
+		when(this.createTaskUseCase.create(task)).thenReturn(taskId);
+		
+		final Long taskIdResponse = this.taskService.createTask(task);
+		
+		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+		
+		verify(this.createTaskUseCase, VerificationModeFactory.times(1)).create(taskCaptor.capture());
+		
+		final Task taskCaptured = taskCaptor.getValue();
+		
+		assertEquals(taskId, taskIdResponse);
+		assertEquals(task.getDate(), taskCaptured.getDate());
+		assertEquals(task.getDescription(), taskCaptured.getDescription());
+		
 	}
 
 }

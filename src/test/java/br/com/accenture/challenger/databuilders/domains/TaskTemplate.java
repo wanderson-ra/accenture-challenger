@@ -12,6 +12,7 @@ public class TaskTemplate {
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
 	public static final String GET_ALL_TASKS = "GET_ALL_TASKS";
+	public static final String CREATE_TASK = "CREATE_TASK";
 
 	protected static void load() {
 		Fixture.of(Task.class).addTemplate(GET_ALL_TASKS, new Rule() {
@@ -22,6 +23,16 @@ public class TaskTemplate {
 				add("date", random(LocalDate.class, LocalDate.parse("10/11/2019", FORMATTER),
 						LocalDate.parse("10/12/2019", FORMATTER)));
 				add("isDone", random(Boolean.class, true, false));
+			}
+		});
+
+		Fixture.of(Task.class).addTemplate(CREATE_TASK, new Rule() {
+			{
+
+				add("description", random("description_01", "description_02"));
+				add("date", random(LocalDate.class, LocalDate.parse("10/11/2019", FORMATTER),
+						LocalDate.parse("10/12/2019", FORMATTER)));
+
 			}
 		});
 	}
