@@ -17,7 +17,7 @@ public class CreateTaskUseCase {
 	protected Long create(final Task task) {
 		log.trace("task: {}", task);
 		
-		final Long taskId = this.taskDatabaseGateway.create(task);
+		final Long taskId = this.taskDatabaseGateway.save(task);
 		
 		log.trace("taskId: {}", taskId);
 		

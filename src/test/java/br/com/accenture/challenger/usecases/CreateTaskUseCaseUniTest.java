@@ -45,13 +45,13 @@ public class CreateTaskUseCaseUniTest {
 		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
 		final Long taskId = 200L;
 		
-		when(this.taskDatabaseGateway.create(task)).thenReturn(taskId);
+		when(this.taskDatabaseGateway.save(task)).thenReturn(taskId);
 		
 		final Long taskIdResponse = this.createTaskUseCase.create(task);
 		
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 		
-		verify(this.taskDatabaseGateway, VerificationModeFactory.times(1)).create(taskCaptor.capture());
+		verify(this.taskDatabaseGateway, VerificationModeFactory.times(1)).save(taskCaptor.capture());
 		
 		final Task taskCaptured = taskCaptor.getValue();
 		

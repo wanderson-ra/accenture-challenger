@@ -19,6 +19,6 @@ public class MarkTaskIsDoneUseCase {
 		log.trace("task: {}", task);
 		final Task taskToBeUpdated = new Task(task.getId(), task.getDescription(), task.getDate(), true);
 
-		this.taskDatabaseGateway.markIsDone(taskToBeUpdated);
+		this.taskDatabaseGateway.save(taskToBeUpdated);
 	}
 }

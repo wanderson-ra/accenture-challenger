@@ -8,8 +8,7 @@ import br.com.accenture.challenger.domains.Task;
 
 public interface TaskDatabaseGateway {
 	List<Task> getAll();
-	Long create(final Task task);
+	Long save(final Task task);
 	void delete(final Task task);
-	Optional<Task> getById(final Long taskId);
-	void markIsDone(final Task task);
+	Optional<Task> getById(final Long taskId);	
 }

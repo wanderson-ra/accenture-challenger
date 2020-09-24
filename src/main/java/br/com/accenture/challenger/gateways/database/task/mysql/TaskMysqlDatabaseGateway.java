@@ -37,7 +37,7 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 		}
 	}
 
-	public Long create(final Task task) {
+	public Long save(final Task task) {
 
 		try {
 			log.trace("task: {}", task);
@@ -82,10 +82,6 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 			throw new ErrorToAccessDatabaseGatewayException();
 		}
 
-	}
+	}	
 	
-	public void markIsDone(final Task task) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -80,13 +80,13 @@ public class TaskMysqlDatabaseGatewayUniTest {
 	}
 
 	@Test
-	public void createTaskWithSuccess() {
+	public void saveWithSuccess() {
 		final Task taskCreate = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
 		final Task taskCreated = Fixture.from(Task.class).gimme(TaskTemplate.CREATED);
 
 		when(this.taskRepository.save(taskCreate)).thenReturn(taskCreated);
 
-		final Long taskId = this.taskMysqlDatabaseGateway.create(taskCreate);
+		final Long taskId = this.taskMysqlDatabaseGateway.save(taskCreate);
 
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 
@@ -100,13 +100,13 @@ public class TaskMysqlDatabaseGatewayUniTest {
 	}
 
 	@Test(expected = ErrorToAccessDatabaseGatewayException.class)
-	public void createTaskWithErrorToAccessDatabase() {
+	public void saveWithErrorToAccessDatabase() {
 		final Task taskCreate = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
 		doThrow(new RuntimeException()).when(this.taskRepository).save(taskCreate);
 
 		try {
 
-			this.taskMysqlDatabaseGateway.create(taskCreate);
+			this.taskMysqlDatabaseGateway.save(taskCreate);
 
 		} catch (ErrorToAccessDatabaseGatewayException e) {
 			assertEquals("challenger.error.database.access", e.code);

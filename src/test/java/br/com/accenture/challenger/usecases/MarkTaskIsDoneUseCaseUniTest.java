@@ -46,7 +46,7 @@ public class MarkTaskIsDoneUseCaseUniTest {
 		this.markTaskIsDoneUseCase.mark(task);
 
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
-		verify(this.taskDatabaseGateway, VerificationModeFactory.times(1)).markIsDone(taskCaptor.capture());
+		verify(this.taskDatabaseGateway, VerificationModeFactory.times(1)).save(taskCaptor.capture());
 
 		final Task taskCaptured = taskCaptor.getValue();
 		
