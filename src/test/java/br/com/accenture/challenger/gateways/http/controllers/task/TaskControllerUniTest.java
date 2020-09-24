@@ -49,12 +49,12 @@ public class TaskControllerUniTest {
 	}
 
 	@Test
-	public void getAllTasksWithSuccess() {
+	public void getAllWithSuccess() {
 
 		final List<Task> tasks = Fixture.from(Task.class).gimme(2, TaskTemplate.GET_ALL_TASKS);
-		when(this.taskService.getAllTasks()).thenReturn(tasks);
+		when(this.taskService.getAll()).thenReturn(tasks);
 
-		final List<TaskJson> taskJsons = this.taskController.getAllTasks();
+		final List<TaskJson> taskJsons = this.taskController.getAll();
 
 		assertEquals(tasks.get(0).getDate(), taskJsons.get(0).getDate());
 		assertEquals(tasks.get(0).getDescription(), taskJsons.get(0).getDescription());
@@ -73,18 +73,28 @@ public class TaskControllerUniTest {
 				.gimme(CreateTaskRequestJsonTemplate.CREATE_TASK_REQUEST);
 		
 		final Long taskId = 100L;		
-		when(this.taskService.createTask(any(Task.class))).thenReturn(taskId);
+		when(this.taskService.create(any(Task.class))).thenReturn(taskId);
 		
 		final CreateTaskResponseJson createTaskResponseJson = this.taskController.create(createTaskRequestJson);
 		
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 		
-		verify(this.taskService, VerificationModeFactory.times(1)).createTask(taskCaptor.capture());
+		verify(this.taskService, VerificationModeFactory.times(1)).create(taskCaptor.capture());
 		
 		final Task taskCaptured = taskCaptor.getValue();
 		
 		assertEquals(taskId, createTaskResponseJson.getId());
 		assertEquals(createTaskRequestJson.getDate(), taskCaptured.getDate());
 		assertEquals(createTaskRequestJson.getDescription(), taskCaptured.getDescription());
+	}
+	
+	@Test
+	public void deleteWithSuccess() {
+		
+		final Long taskId = 300L;
+		
+		this.taskController.delete(taskId);
+		
+		verify(this.taskService, VerificationModeFactory.times(1)).delete(taskId);
 	}
 }

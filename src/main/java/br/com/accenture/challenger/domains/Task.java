@@ -29,7 +29,7 @@ public class Task {
 	@Column(nullable = false)
 	private LocalDate date;
 	
-	@Column(name = "is_done", columnDefinition = "boolean default true", nullable = false)
+	@Column(columnDefinition = "boolean default false", nullable = false)
 	private Boolean isDone = false;
 
 	public Task(final String description, final LocalDate date) {

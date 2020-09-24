@@ -18,7 +18,7 @@ public class TaskService {
 	@Autowired
 	private CreateTaskUseCase createTaskUseCase;
 
-	public List<Task> getAllTasks() {
+	public List<Task> getAll() {
 		log.trace("Get All Taks, TaskService");
 
 		final List<Task> tasks = this.getAllTasksUseCase.get();
@@ -28,7 +28,7 @@ public class TaskService {
 		return tasks;
 	}
 
-	public Long createTask(final Task task) {
+	public Long create(final Task task) {
 		
 		log.trace("task: {}", task);
 		
@@ -37,6 +37,10 @@ public class TaskService {
 		log.trace("taskId: {}", taskId);
 		
 		return taskId;
+	}
+	
+	public void delete(final Long taskId) {
+		
 	}
 
 }

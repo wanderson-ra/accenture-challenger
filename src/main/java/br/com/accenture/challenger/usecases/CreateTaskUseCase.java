@@ -14,7 +14,7 @@ public class CreateTaskUseCase {
 	@Autowired
 	private TaskDatabaseGateway taskDatabaseGateway;
 
-	public Long create(final Task task) {
+	protected Long create(final Task task) {
 		log.trace("task: {}", task);
 		
 		final Long taskId = this.taskDatabaseGateway.createTask(task);

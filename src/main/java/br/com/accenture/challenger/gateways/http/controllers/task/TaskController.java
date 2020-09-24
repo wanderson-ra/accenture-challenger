@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +49,10 @@ public class TaskController {
 	@Validated
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<TaskJson> getAllTasks() {
+	public List<TaskJson> getAll() {
 		log.trace("Get All Taks, TaskController");
 
-		final List<Task> tasks = this.taskService.getAllTasks();
+		final List<Task> tasks = this.taskService.getAll();
 		final List<TaskJson> tasksJson = tasks.stream().map(task -> this.mapperTaskJsonFromTask(task))
 				.collect(Collectors.toList());
 
@@ -59,7 +62,7 @@ public class TaskController {
 	}
 
 	@ApiOperation(value = "Resource to get companies", response = CreateTaskResponseJson.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 401, message = "Unauthorized"),
 			@ApiResponse(code = 422, message = "Unprocessable Entity"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
@@ -71,11 +74,28 @@ public class TaskController {
 		log.trace("createTaskRequestJson: {}", createTaskRequestJson);
 
 		final Task task = this.mapperTaskFromCreateTaskRequestJson(createTaskRequestJson);
-		final Long taskId = this.taskService.createTask(task);
+		final Long taskId = this.taskService.create(task);
 		final CreateTaskResponseJson createTaskResponseJson = new CreateTaskResponseJson(taskId);
 
 		log.trace("createTaskResponseJson: {}", createTaskResponseJson);
 		return createTaskResponseJson;
+	}
+
+	@ApiOperation(value = "Resource to get companies")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
+			@ApiResponse(code = 401, message = "Unauthorized"),
+			@ApiResponse(code = 422, message = "Unprocessable Entity"),
+			@ApiResponse(code = 500, message = "Internal Server Error") })
+	@Validated
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("{taskId}")
+	public void delete(final @NotNull @Valid @PathVariable(required = true) Long taskId) {
+
+		log.trace("taskId: {}", taskId);
+
+		this.taskService.delete(taskId);
+
+		log.trace("taskId: {}", taskId);
 	}
 
 	private Task mapperTaskFromCreateTaskRequestJson(final CreateTaskRequestJson createTaskRequestJson) {
