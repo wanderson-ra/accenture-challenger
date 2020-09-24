@@ -1,10 +1,8 @@
 package br.com.accenture.challenger.usecases;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
+import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.junit.Before;
@@ -19,19 +17,17 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import br.com.accenture.challenger.databuilders.domains.DomainsTemplateLoader;
 import br.com.accenture.challenger.databuilders.domains.TaskTemplate;
 import br.com.accenture.challenger.domains.Task;
+import br.com.accenture.challenger.gateways.database.task.TaskDatabaseGateway;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
-public class TaskServiceUniTest {
+public class CreateTaskUseCaseUniTest {
 	
 	@InjectMocks
-	private TaskService taskService;
-	
-	@Mock
-	private GetAllTasksUseCase getAllTasksUseCase;
-	
-	@Mock
 	private CreateTaskUseCase createTaskUseCase;
+	
+	@Mock
+	private TaskDatabaseGateway taskDatabaseGateway;
 	
 	@Before
 	public void initMocks() {
@@ -44,35 +40,18 @@ public class TaskServiceUniTest {
 	}
 	
 	@Test
-	public void getAllTasksWithSuccess() {
-		final List<Task> tasks = Fixture.from(Task.class).gimme(2, TaskTemplate.GET_ALL_TASKS);
-		when(this.taskService.getAllTasks()).thenReturn(tasks);
-		
-		final List<Task> tasksResponse = this.taskService.getAllTasks();
-		
-		assertEquals(tasks.get(0).getDate(), tasksResponse.get(0).getDate());
-		assertEquals(tasks.get(0).getDescription(), tasksResponse.get(0).getDescription());
-		assertEquals(tasks.get(0).getId(), tasksResponse.get(0).getId());
-		assertEquals(tasks.get(0).getIsDone(), tasksResponse.get(0).getIsDone());
-		
-		assertEquals(tasks.get(1).getDate(), tasksResponse.get(1).getDate());
-		assertEquals(tasks.get(1).getDescription(), tasksResponse.get(1).getDescription());
-		assertEquals(tasks.get(1).getId(), tasksResponse.get(1).getId());
-		assertEquals(tasks.get(1).getIsDone(), tasksResponse.get(1).getIsDone());	
-	}
-	
-	@Test
 	public void createWithSuccess() {
+		
 		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
 		final Long taskId = 200L;
 		
-		when(this.createTaskUseCase.create(task)).thenReturn(taskId);
+		when(this.taskDatabaseGateway.createTask(task)).thenReturn(taskId);
 		
-		final Long taskIdResponse = this.taskService.createTask(task);
+		final Long taskIdResponse = this.createTaskUseCase.create(task);
 		
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 		
-		verify(this.createTaskUseCase, VerificationModeFactory.times(1)).create(taskCaptor.capture());
+		verify(this.taskDatabaseGateway, VerificationModeFactory.times(1)).createTask(taskCaptor.capture());
 		
 		final Task taskCaptured = taskCaptor.getValue();
 		
@@ -80,4 +59,5 @@ public class TaskServiceUniTest {
 		assertEquals(task.getDate(), taskCaptured.getDate());
 		assertEquals(task.getDescription(), taskCaptured.getDescription());		
 	}
+
 }

@@ -74,5 +74,10 @@ public class TaskMysqlDatabaseGatewayUniTest {
 		}
 
 	}
+	
+	@Test 
+	public void createTaskWithSuccess() {
+		
+	}
 
 }

@@ -19,7 +19,7 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 	private TaskRepository taskRepository;
 
 	public List<Task> getAllTasks() {
-		
+
 		try {
 			log.trace("Get All Taks, TaskMysqlDatabaseGateway");
 
@@ -28,10 +28,27 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 			log.trace("tasks: {}", tasks);
 
 			return tasks;
-			
+
 		} catch (Exception error) {
 			log.error("Error, {}", error);
 			throw new ErrorToAccessDatabaseGatewayException();
-		}	
+		}
+	}
+
+	public Long createTask(final Task task) {
+
+		try {
+			log.trace("task: {}", task);
+
+			final Task taskCreated = this.taskRepository.save(task);
+
+			log.trace("taskId: {}", taskCreated.getId());
+
+			return taskCreated.getId();
+
+		} catch (Exception error) {
+			log.error("Error, {}", error);
+			throw new ErrorToAccessDatabaseGatewayException();
+		}
 	}
 }
