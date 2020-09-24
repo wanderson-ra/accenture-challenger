@@ -74,14 +74,12 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 
 			final Optional<Task> optionalTask = this.taskRepository.findById(taskId);
 
-			log.trace("task: {}", optionalTask.get());
-
 			return optionalTask;
 		} catch (Exception error) {
 			log.error("Error, {}", error);
 			throw new ErrorToAccessDatabaseGatewayException();
 		}
 
-	}	
-	
+	}
+
 }
