@@ -20,6 +20,9 @@ public class TaskService {
 
 	@Autowired
 	private DeleteTaskUseCase deleteTaskUseCase;
+	
+	@Autowired
+	private GetTaskByIdUseCase getTaskByIdUseCase;
 
 	public List<Task> getAll() {
 		log.trace("Get All Taks, TaskService");
@@ -45,7 +48,9 @@ public class TaskService {
 	public void delete(final Long taskId) {
 		log.trace("taskId: {}", taskId);
 		
-		this.deleteTaskUseCase.delete(taskId);
+		final Task task = this.getTaskByIdUseCase.get(taskId);
+		
+		this.deleteTaskUseCase.delete(task);
 
 		log.trace("taskId: {}", taskId);
 	}

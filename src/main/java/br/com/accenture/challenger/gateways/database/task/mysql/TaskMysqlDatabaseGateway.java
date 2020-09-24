@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 import br.com.accenture.challenger.domains.Task;
 import br.com.accenture.challenger.gateways.database.task.TaskDatabaseGateway;
 import br.com.accenture.challenger.gateways.database.task.mysql.repository.TaskRepository;
@@ -18,7 +20,7 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	public List<Task> getAllTasks() {
+	public List<Task> getAll() {
 
 		try {
 			log.trace("Get All Taks, TaskMysqlDatabaseGateway");
@@ -35,7 +37,7 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 		}
 	}
 
-	public Long createTask(final Task task) {
+	public Long create(final Task task) {
 
 		try {
 			log.trace("task: {}", task);
@@ -53,8 +55,21 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 	}
 
 	
-	public void delete(final Long taskId) {
-		// TODO Auto-generated method stub
+	public void delete(final Task task) {
+		try {
+			log.trace("taskId: {}", task);
+			
+			this.taskRepository.delete(task);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
+	}
+
+	@Override
+	public Optional<Task> getById(Long taskId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

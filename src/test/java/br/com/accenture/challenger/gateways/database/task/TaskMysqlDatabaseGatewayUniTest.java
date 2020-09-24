@@ -49,7 +49,7 @@ public class TaskMysqlDatabaseGatewayUniTest {
 		final List<Task> tasks = Fixture.from(Task.class).gimme(2, TaskTemplate.GET_ALL_TASKS);
 		when(this.taskRepository.findAll()).thenReturn(tasks);
 
-		final List<Task> tasksResponse = this.taskMysqlDatabaseGateway.getAllTasks();
+		final List<Task> tasksResponse = this.taskMysqlDatabaseGateway.getAll();
 
 		assertEquals(tasks.get(0).getDate(), tasksResponse.get(0).getDate());
 		assertEquals(tasks.get(0).getDescription(), tasksResponse.get(0).getDescription());
@@ -68,7 +68,7 @@ public class TaskMysqlDatabaseGatewayUniTest {
 
 		try {
 
-			this.taskMysqlDatabaseGateway.getAllTasks();
+			this.taskMysqlDatabaseGateway.getAll();
 
 		} catch (ErrorToAccessDatabaseGatewayException e) {
 			assertEquals("challenger.error.database.access", e.code);
@@ -85,7 +85,7 @@ public class TaskMysqlDatabaseGatewayUniTest {
 
 		when(this.taskRepository.save(taskCreate)).thenReturn(taskCreated);
 
-		final Long taskId = this.taskMysqlDatabaseGateway.createTask(taskCreate);
+		final Long taskId = this.taskMysqlDatabaseGateway.create(taskCreate);
 
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 
@@ -105,7 +105,7 @@ public class TaskMysqlDatabaseGatewayUniTest {
 
 		try {
 			
-			this.taskMysqlDatabaseGateway.createTask(taskCreate);
+			this.taskMysqlDatabaseGateway.create(taskCreate);
 			
 		} catch (ErrorToAccessDatabaseGatewayException e) {
 			assertEquals("challenger.error.database.access", e.code);

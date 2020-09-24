@@ -41,7 +41,7 @@ public class GetAllTasksUseCaseUnitTest {
 	@Test
 	public void getWithSuccess() {
 		final List<Task> tasks = Fixture.from(Task.class).gimme(2, TaskTemplate.GET_ALL_TASKS);
-		when(this.databaseGateway.getAllTasks()).thenReturn(tasks);
+		when(this.databaseGateway.getAll()).thenReturn(tasks);
 		
 		final List<Task> tasksResponse = this.getAllTasksUseCase.get();
 		

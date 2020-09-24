@@ -35,6 +35,9 @@ public class TaskServiceUniTest {
 
 	@Mock
 	private DeleteTaskUseCase deleteTaskUseCase;
+	
+	@Mock
+	private GetTaskByIdUseCase getTaskByIdUseCase;
 
 	@Before
 	public void initMocks() {
@@ -86,10 +89,20 @@ public class TaskServiceUniTest {
 
 	@Test
 	public void deleteWithSuccess() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.GET_TASK);
 		final Long taskId = 300L;
+		
+		when(this.getTaskByIdUseCase.get(taskId)).thenReturn(task);
 
 		this.taskService.delete(taskId);
+		
+		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+		verify(this.deleteTaskUseCase, VerificationModeFactory.times(1)).delete(taskCaptor.capture());	
 
-		verify(this.deleteTaskUseCase, VerificationModeFactory.times(1)).delete(taskId);
+		final Task taskCaptured = taskCaptor.getValue();
+		assertEquals(task.getDate(), taskCaptured.getDate());
+		assertEquals(task.getDescription(), taskCaptured.getDescription());
+		assertEquals(task.getId(), taskCaptured.getId());
+		assertEquals(task.getIsDone(), taskCaptured.getIsDone());
 	}
 }

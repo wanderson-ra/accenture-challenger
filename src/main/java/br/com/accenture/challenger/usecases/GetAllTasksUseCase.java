@@ -19,7 +19,7 @@ public class GetAllTasksUseCase {
 	protected List<Task> get (){		
 		log.trace("Get All Taks, GetAllTasksUseCase");
 		
-		final List<Task> tasks = this.databaseGateway.getAllTasks();
+		final List<Task> tasks = this.databaseGateway.getAll();
 		
 		log.trace("taks: {}", tasks);
 		
