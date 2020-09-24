@@ -51,4 +51,10 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 			throw new ErrorToAccessDatabaseGatewayException();
 		}
 	}
+
+	
+	public void delete(final Long taskId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
