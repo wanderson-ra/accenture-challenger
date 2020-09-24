@@ -38,6 +38,9 @@ public class TaskServiceUniTest {
 	
 	@Mock
 	private GetTaskByIdUseCase getTaskByIdUseCase;
+	
+	@Mock
+	private MarkTaskIsDoneUseCase markTaskIsDoneUseCase;
 
 	@Before
 	public void initMocks() {
@@ -98,6 +101,25 @@ public class TaskServiceUniTest {
 		
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 		verify(this.deleteTaskUseCase, VerificationModeFactory.times(1)).delete(taskCaptor.capture());	
+
+		final Task taskCaptured = taskCaptor.getValue();
+		assertEquals(task.getDate(), taskCaptured.getDate());
+		assertEquals(task.getDescription(), taskCaptured.getDescription());
+		assertEquals(task.getId(), taskCaptured.getId());
+		assertEquals(task.getIsDone(), taskCaptured.getIsDone());
+	}
+	
+	@Test
+	public void markIsDoneWithSuccess() {
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.GET_TASK);
+		final Long taskId = 300L;
+		
+		when(this.getTaskByIdUseCase.get(taskId)).thenReturn(task);
+
+		this.taskService.markIsDone(taskId);
+		
+		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+		verify(this.markTaskIsDoneUseCase, VerificationModeFactory.times(1)).mark(taskCaptor.capture());	
 
 		final Task taskCaptured = taskCaptor.getValue();
 		assertEquals(task.getDate(), taskCaptured.getDate());

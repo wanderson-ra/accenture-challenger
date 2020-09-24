@@ -97,4 +97,14 @@ public class TaskControllerUniTest {
 		
 		verify(this.taskService, VerificationModeFactory.times(1)).delete(taskId);
 	}
+	
+	@Test
+	public void markIsDoneWithSuccess() {
+		
+		final Long taskId = 300L;
+		
+		this.taskController.markIsDone(taskId);
+		
+		verify(this.taskService, VerificationModeFactory.times(1)).markIsDone(taskId);
+	}
 }

@@ -23,6 +23,9 @@ public class TaskService {
 	
 	@Autowired
 	private GetTaskByIdUseCase getTaskByIdUseCase;
+	
+	@Autowired
+	private MarkTaskIsDoneUseCase markTaskIsDoneUseCase;
 
 	public List<Task> getAll() {
 		log.trace("Get All Taks, TaskService");
@@ -38,9 +41,7 @@ public class TaskService {
 
 		log.trace("task: {}", task);
 
-		final Long taskId = this.createTaskUseCase.create(task);
-
-		log.trace("taskId: {}", taskId);
+		final Long taskId = this.createTaskUseCase.create(task);		
 
 		return taskId;
 	}
@@ -50,9 +51,15 @@ public class TaskService {
 		
 		final Task task = this.getTaskByIdUseCase.get(taskId);
 		
-		this.deleteTaskUseCase.delete(task);
-
+		this.deleteTaskUseCase.delete(task);		
+	}
+	
+	public void markIsDone(final Long taskId) {
 		log.trace("taskId: {}", taskId);
+		
+		final Task task = this.getTaskByIdUseCase.get(taskId);
+		
+		this.markTaskIsDoneUseCase.mark(task);
 	}
 
 }

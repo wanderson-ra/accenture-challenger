@@ -41,7 +41,7 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
-	@ApiOperation(value = "Resource to get companies", response = TaskJson.class, responseContainer = "List")
+	@ApiOperation(value = "Resource to get all tasks", response = TaskJson.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 401, message = "Unauthorized"),
 			@ApiResponse(code = 422, message = "Unprocessable Entity"),
@@ -61,13 +61,13 @@ public class TaskController {
 		return tasksJson;
 	}
 
-	@ApiOperation(value = "Resource to get companies", response = CreateTaskResponseJson.class)
+	@ApiOperation(value = "Resource to create task", response = CreateTaskResponseJson.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 401, message = "Unauthorized"),
 			@ApiResponse(code = 422, message = "Unprocessable Entity"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@Validated
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
 	public CreateTaskResponseJson create(
 			final @RequestBody(required = true) @Valid CreateTaskRequestJson createTaskRequestJson) {
@@ -81,7 +81,7 @@ public class TaskController {
 		return createTaskResponseJson;
 	}
 
-	@ApiOperation(value = "Resource to get companies")
+	@ApiOperation(value = "Resource to delete task")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 401, message = "Unauthorized"),
 			@ApiResponse(code = 422, message = "Unprocessable Entity"),
@@ -94,8 +94,21 @@ public class TaskController {
 		log.trace("taskId: {}", taskId);
 
 		this.taskService.delete(taskId);
+	}
+	
+	@ApiOperation(value = "Resource to mark task done")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
+			@ApiResponse(code = 401, message = "Unauthorized"),
+			@ApiResponse(code = 422, message = "Unprocessable Entity"),
+			@ApiResponse(code = 500, message = "Internal Server Error") })
+	@Validated
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("{taskId}")
+	public void markIsDone(final @NotNull @Valid @PathVariable(required = true) Long taskId) {
 
 		log.trace("taskId: {}", taskId);
+
+		this.taskService.markIsDone(taskId);		
 	}
 
 	private Task mapperTaskFromCreateTaskRequestJson(final CreateTaskRequestJson createTaskRequestJson) {
