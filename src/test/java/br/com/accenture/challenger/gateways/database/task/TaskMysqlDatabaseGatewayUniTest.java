@@ -3,6 +3,7 @@ package br.com.accenture.challenger.gateways.database.task;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -10,9 +11,11 @@ import org.apache.commons.lang3.ClassUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
 
 import br.com.accenture.challenger.databuilders.domains.DomainsTemplateLoader;
 import br.com.accenture.challenger.databuilders.domains.TaskTemplate;
@@ -74,10 +77,42 @@ public class TaskMysqlDatabaseGatewayUniTest {
 		}
 
 	}
-	
-	@Test 
+
+	@Test
 	public void createTaskWithSuccess() {
-		
+		final Task taskCreate = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
+		final Task taskCreated = Fixture.from(Task.class).gimme(TaskTemplate.CREATED);
+
+		when(this.taskRepository.save(taskCreate)).thenReturn(taskCreated);
+
+		final Long taskId = this.taskMysqlDatabaseGateway.createTask(taskCreate);
+
+		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+
+		verify(this.taskRepository, VerificationModeFactory.times(1)).save(taskCaptor.capture());
+
+		final Task taskCaptured = taskCaptor.getValue();
+
+		assertEquals(taskId, taskCreated.getId());
+		assertEquals(taskCreate.getDate(), taskCaptured.getDate());
+		assertEquals(taskCreate.getDescription(), taskCaptured.getDescription());
+	}
+
+	@Test(expected = ErrorToAccessDatabaseGatewayException.class)
+	public void createTaskWithErrorToAccessDatabase() {
+		final Task taskCreate = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
+		doThrow(new RuntimeException()).when(this.taskRepository).save(taskCreate);
+
+		try {
+			
+			this.taskMysqlDatabaseGateway.createTask(taskCreate);
+			
+		} catch (ErrorToAccessDatabaseGatewayException e) {
+			assertEquals("challenger.error.database.access", e.code);
+			assertEquals("Error to access database.", e.message);
+			throw e;
+		}
+
 	}
 
 }
