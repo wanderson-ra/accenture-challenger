@@ -4,8 +4,8 @@ spring:
       
    datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://bdc32066531519:68098ae6@us-cdbr-east-02.cleardb.com/heroku_98a9f4dfd5531e3?reconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true     
-
+    url: jdbc:mysql://localhost:3306/challenger?zeroDateTimeBehavior=convertToNull&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true   
+   
     
    jpa: 
     database: MYSQL
