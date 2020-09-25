@@ -14,13 +14,13 @@ public class CreateTaskUseCase {
 	@Autowired
 	private TaskDatabaseGateway taskDatabaseGateway;
 
-	protected Long create(final Task task) {
+	protected Task create(final Task task) {
 		log.trace("task: {}", task);
 		
-		final Long taskId = this.taskDatabaseGateway.save(task);
+		final Task taskCreated = this.taskDatabaseGateway.save(task);
 		
-		log.trace("taskId: {}", taskId);
+		log.trace("taskId: {}", taskCreated);
 		
-		return taskId;
+		return taskCreated;
 	}
 }

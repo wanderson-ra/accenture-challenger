@@ -37,16 +37,16 @@ public class TaskMysqlDatabaseGateway implements TaskDatabaseGateway {
 		}
 	}
 
-	public Long save(final Task task) {
+	public Task save(final Task task) {
 
 		try {
 			log.trace("task: {}", task);
 
 			final Task taskCreated = this.taskRepository.save(task);
 
-			log.trace("taskId: {}", taskCreated.getId());
+			log.trace("taskId: {}", taskCreated);
 
-			return taskCreated.getId();
+			return taskCreated;
 
 		} catch (Exception error) {
 			log.error("Error, {}", error);

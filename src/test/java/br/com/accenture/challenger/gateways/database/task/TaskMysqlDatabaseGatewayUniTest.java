@@ -86,7 +86,7 @@ public class TaskMysqlDatabaseGatewayUniTest {
 
 		when(this.taskRepository.save(taskCreate)).thenReturn(taskCreated);
 
-		final Long taskId = this.taskMysqlDatabaseGateway.save(taskCreate);
+		final Task taskResponse = this.taskMysqlDatabaseGateway.save(taskCreate);
 
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 
@@ -94,7 +94,11 @@ public class TaskMysqlDatabaseGatewayUniTest {
 
 		final Task taskCaptured = taskCaptor.getValue();
 
-		assertEquals(taskId, taskCreated.getId());
+		assertEquals(taskCreated.getId(), taskResponse.getId());
+		assertEquals(taskCreated.getDate(), taskResponse.getDate());
+		assertEquals(taskCreated.getDescription(), taskResponse.getDescription());
+		assertEquals(taskCreated.getIsDone(), taskResponse.getIsDone());	
+		
 		assertEquals(taskCreate.getDate(), taskCaptured.getDate());
 		assertEquals(taskCreate.getDescription(), taskCaptured.getDescription());
 	}

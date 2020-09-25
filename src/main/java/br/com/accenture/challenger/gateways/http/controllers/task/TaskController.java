@@ -75,12 +75,14 @@ public class TaskController {
 		log.trace("createTaskRequestJson: {}", createTaskRequestJson);
 
 		final Task task = this.mapperTaskFromCreateTaskRequestJson(createTaskRequestJson);
-		final Long taskId = this.taskService.create(task);
-		final CreateTaskResponseJson createTaskResponseJson = new CreateTaskResponseJson(taskId);
+		final Task taskCreated = this.taskService.create(task);
+		
+		final CreateTaskResponseJson createTaskResponseJson = this.mapperCreateTaskJsonFromTask(taskCreated);
 
 		log.trace("createTaskResponseJson: {}", createTaskResponseJson);
 		return createTaskResponseJson;
 	}
+
 
 	@ApiOperation(value = "Resource to delete task")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
@@ -96,7 +98,7 @@ public class TaskController {
 
 		this.taskService.delete(taskId);
 	}
-	
+
 	@ApiOperation(value = "Resource to mark task done")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OK"), @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 401, message = "Unauthorized"),
@@ -109,7 +111,13 @@ public class TaskController {
 
 		log.trace("taskId: {}", taskId);
 
-		this.taskService.markIsDone(taskId);		
+		this.taskService.markIsDone(taskId);
+	}
+	
+	private CreateTaskResponseJson mapperCreateTaskJsonFromTask(final Task taskCreated) {
+		return new CreateTaskResponseJson(taskCreated.getId(),
+				taskCreated.getDescription(), taskCreated.getDate(), taskCreated.getIsDone());
+		
 	}
 
 	private Task mapperTaskFromCreateTaskRequestJson(final CreateTaskRequestJson createTaskRequestJson) {

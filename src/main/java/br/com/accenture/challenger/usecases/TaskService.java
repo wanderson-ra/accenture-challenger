@@ -37,13 +37,13 @@ public class TaskService {
 		return tasks;
 	}
 
-	public Long create(final Task task) {
+	public Task create(final Task task) {
 
 		log.trace("task: {}", task);
 
-		final Long taskId = this.createTaskUseCase.create(task);		
+		final Task taskCreated = this.createTaskUseCase.create(task);		
 
-		return taskId;
+		return taskCreated;
 	}
 
 	public void delete(final Long taskId) {

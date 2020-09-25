@@ -73,11 +73,11 @@ public class TaskServiceUniTest {
 	@Test
 	public void createWithSuccess() {
 		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.CREATE_TASK);
-		final Long taskId = 200L;
+		final Task taskCreated = Fixture.from(Task.class).gimme(TaskTemplate.CREATED);		
 
-		when(this.createTaskUseCase.create(task)).thenReturn(taskId);
+		when(this.createTaskUseCase.create(task)).thenReturn(taskCreated);
 
-		final Long taskIdResponse = this.taskService.create(task);
+		final Task taskResponse = this.taskService.create(task);
 
 		final ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
 
@@ -85,9 +85,13 @@ public class TaskServiceUniTest {
 
 		final Task taskCaptured = taskCaptor.getValue();
 
-		assertEquals(taskId, taskIdResponse);
+		assertEquals(taskCreated.getId(), taskResponse.getId());
+		assertEquals(taskCreated.getDate(), taskResponse.getDate());
+		assertEquals(taskCreated.getDescription(), taskResponse.getDescription());
+		assertEquals(taskCreated.getIsDone(), taskResponse.getIsDone());		
+		
 		assertEquals(task.getDate(), taskCaptured.getDate());
-		assertEquals(task.getDescription(), taskCaptured.getDescription());
+		assertEquals(task.getDescription(), taskCaptured.getDescription());		
 	}
 
 	@Test

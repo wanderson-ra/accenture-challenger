@@ -72,8 +72,9 @@ public class TaskControllerUniTest {
 		final CreateTaskRequestJson createTaskRequestJson = Fixture.from(CreateTaskRequestJson.class)
 				.gimme(CreateTaskRequestJsonTemplate.CREATE_TASK_REQUEST);
 		
-		final Long taskId = 100L;		
-		when(this.taskService.create(any(Task.class))).thenReturn(taskId);
+		final Task task = Fixture.from(Task.class).gimme(TaskTemplate.CREATED);		
+			
+		when(this.taskService.create(any(Task.class))).thenReturn(task);
 		
 		final CreateTaskResponseJson createTaskResponseJson = this.taskController.create(createTaskRequestJson);
 		
@@ -83,7 +84,11 @@ public class TaskControllerUniTest {
 		
 		final Task taskCaptured = taskCaptor.getValue();
 		
-		assertEquals(taskId, createTaskResponseJson.getId());
+		assertEquals(task.getId(), createTaskResponseJson.getId());
+		assertEquals(task.getDate(), createTaskResponseJson.getDate());
+		assertEquals(task.getDescription(), createTaskResponseJson.getDescription());
+		assertEquals(task.getIsDone(), createTaskResponseJson.getIsDone());		
+		
 		assertEquals(createTaskRequestJson.getDate(), taskCaptured.getDate());
 		assertEquals(createTaskRequestJson.getDescription(), taskCaptured.getDescription());
 	}
