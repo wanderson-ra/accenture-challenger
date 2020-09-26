@@ -21,7 +21,7 @@
 ```sudo docker build -t wander25rda/accenture-challenge:1.0.0 .```
 
 * Ou se você deseja apenas executar, use o comando:
-```sudo docker container run --name wander25rda/accenture-challenge -p 8000:8000 wander25rda/accenture-challenge:1.0.0```
+```sudo docker container run --name accenture-challenge -p 8000:8000 wander25rda/accenture-challenge:1.0.0```
 
 
 
