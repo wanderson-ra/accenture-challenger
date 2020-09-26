@@ -1,21 +1,21 @@
-#Git Accenture Challenger
+# Git Accenture Challenger
 
 
 
-##Informações Técnicas
+## Informações Técnicas
 * O sistema foi criado usando ** Java ** (openjdk versão ** "11.0.8" 2020-07-14 **).
-* ** Spring Boot ** foi usado
-* O sistema foi desenvolvido com ** [TDD](https://pt.wikipedia.org/wiki/Test_Driven_Development) **
+* **Spring Boot** foi usado
+* O sistema foi desenvolvido com **[TDD](https://pt.wikipedia.org/wiki/Test_Driven_Development)**
 * O sistema foi desenvolvido usando ** [Clean Architecture](https://stackoverflow.com/tags/clean-architecture/info) **
-* O sistema usa ** [Lombok](https://projectlombok.org/) **. Para o desenvolvimento é necessário instalar o plug-in no IDE (caso contrário, haverá erros de compilação).
-* ** Docker ** Foi usado. [Docker Hub](https://hub.docker.com/repository/docker/wander25rda/accenture-challenge)
-* O projeto está disponível na plataforma ** [Heroku](https://challenger-acc.herokuapp.com/) **.
-* ** Swagger ** Foi usado para documentar a API. Para acessar, use o endereço: https://challenger-acc.herokuapp.com/swagger-ui.html
+* O sistema usa **[Lombok](https://projectlombok.org/)**. Para o desenvolvimento é necessário instalar o plug-in no IDE (caso contrário, haverá erros de compilação).
+* **Docker** Foi usado. **[Docker Hub](https://hub.docker.com/repository/docker/wander25rda/accenture-challenge)**
+* O projeto está disponível na plataforma **[Heroku](https://challenger-acc.herokuapp.com/)**.
+* **Swagger** Foi usado para documentar a API. Para acessar, use o endereço: https://challenger-acc.herokuapp.com/swagger-ui.html
 * Mais de 80% de cobertura de testes de unidade.
 * Utilizou conceitos de SOLID e Design Patterns.
 
-###Docker
-PS: O projeto está disponível no [docker hub](https://hub.docker.com/repository/docker/wander25rda/accenture-challenge)
+## Docker
+#### PS: O projeto está disponível no [Docker Hub](https://hub.docker.com/repository/docker/wander25rda/accenture-challenge)
 
 * Se você deseja gerar a imagem, use (você precisa do lib (jar) no local):
 ```sudo docker build -t wander25rda/accenture-challenge:1.0.0 .```
@@ -49,8 +49,6 @@ Response:
   "isDone": false
 }
 ```
-
-** Example of Error: ** Access to git repository not implemented (GitLab, Bitbucket, etc.). ** Only Github is implemented **
 
 Request: (Delete)
 
