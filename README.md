@@ -3,7 +3,7 @@
 
 
 ## Informações Técnicas
-* O sistema foi criado usando ** Java ** (openjdk versão ** "11.0.8" 2020-07-14 **).
+* O sistema foi criado usando **Java** (openjdk versão **"11.0.8" 2020-07-14**).
 * **Spring Boot** foi usado
 * O sistema foi desenvolvido com **[TDD](https://pt.wikipedia.org/wiki/Test_Driven_Development)**
 * O sistema foi desenvolvido usando ** [Clean Architecture](https://stackoverflow.com/tags/clean-architecture/info) **
