@@ -6,10 +6,10 @@
 * O sistema foi criado usando **Java** (openjdk versão **"11.0.8" 2020-07-14**).
 * **Spring Boot** foi usado
 * O sistema foi desenvolvido com **[TDD](https://pt.wikipedia.org/wiki/Test_Driven_Development)**
-* O sistema foi desenvolvido usando ** [Clean Architecture](https://stackoverflow.com/tags/clean-architecture/info) **
+* O sistema foi desenvolvido usando **[Clean Architecture](https://stackoverflow.com/tags/clean-architecture/info)**
 * O sistema usa **[Lombok](https://projectlombok.org/)**. Para o desenvolvimento é necessário instalar o plug-in no IDE (caso contrário, haverá erros de compilação).
 * **Docker** Foi usado. **[Docker Hub](https://hub.docker.com/repository/docker/wander25rda/accenture-challenge)**
-* O projeto está disponível na plataforma **[Heroku](https://challenger-acc.herokuapp.com/)**.
+* O projeto está disponível na plataforma (Front End) **[Heroku](https://challenge-acc-webapp.herokuapp.com/)**.
 * **Swagger** Foi usado para documentar a API. Para acessar, use o endereço: https://challenger-acc.herokuapp.com/swagger-ui.html
 * Mais de 80% de cobertura de testes de unidade.
 * Utilizou conceitos de SOLID e Design Patterns.
